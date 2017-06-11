@@ -1,0 +1,37 @@
+<resources>
+    <string name="app_name" translatable="false">SeaMapDroid</string>
+    <string name="action_source">Source code</string>
+    <string name="action_about">About</string>
+    <string name="about">About of SeaMapDroid</string>
+    <string name="about_history">
+        <![CDATA[
+        <h1>Welcome!</h1>
+
+        <p>Thanks for using SeaMapDroid, a "politically" <b>independent</b> app for open the <b>OpenSeaMap<b> using a <b>Free/Libre software</b>.</p>
+
+        <p>Why use this app?</p>
+		<p>
+        - You\'ll never be <b>tracked</b><br>
+        - You\'ll never see boring <b>ads</b><br>
+        - We\'ll always respect your <b>privacy</b><br>
+        - Moreover, it\'s lightweight!<br>
+        </p>
+
+        <h2>How does it work?</h2>
+        <p>This app is a client for consult the online map <b>OpenSeaMap</b> "for personal use".</p>
+
+		<p>Who worked on SeaMapDroid:<br>
+		- <b>Marco Magliano</b> main developer.<br>
+		- All the contributors!
+		</p>
+
+		<h2>Licenses</h2>
+		<p>The app and the related source code are released by Marco Magliano under the terms of the <i>GNU General Public License v3</i>).
+		So everyone is allowed to use, to study, to improve and to share this app by <b>any kind of means</b> and for <b>any purpose</b>: under the conditions of maintaining this rights and of attributing the original work to Marco Magliano.</p>
+
+		<h2>Notes</h2>
+		<p>This app has been developed <b>hoping to be useful to everyone</b> but without ANY warranty.</p>
+		<p>Get involved! :)</p>
+    ]]>
+    </string>
+</resources>

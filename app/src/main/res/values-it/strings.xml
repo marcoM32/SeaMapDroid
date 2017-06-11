@@ -1,0 +1,39 @@
+<resources>
+    <string name="action_source">Codice sorgente</string>
+    <string name="action_about">Altro</string>
+    <string name="about">Altro su SeaMapDroid</string>
+    <string name="about_history">
+        <![CDATA[
+        <h1>Benvenuto!</h1>
+
+        <p>Grazie per aver scelto SeaMapDroid, un\'app \"politicamente\" <b>indipendente</b> per consultare le OpenSeaMap con del <b>software libero</b>.</p>
+
+        <p>Perché usare questa app?</p>
+		<p>
+        - Non sei <b>monitorato</b><br>
+        - Non ci sono <b>pubblicità</b><br>
+        - La tua <b>privacy</b> è al sicuro<br>
+        - Inoltre l\'app è molto leggera!<br>
+        </p>
+
+        <h2>Come funziona?</h2>
+        <p>Questa applicazione è un client per consultare le mappe nautiche libere presenti online su <b>www.openseamap.org</b> "per uso personale".</p>
+
+		<p>Chi ha lavorato su SeaMapDroid:<br>
+		- <b>Marco Magliano</b> sviluppatore principale.<br>
+		- Tutti i contributori!
+		</p>
+
+		<h2>Licenza</h2>
+		<p>L\'app e il relativo codice sorgente sono distribuiti sotto la licenza <i>GNU General Public License v3</i>.
+		Ciò <b>significa</b> che puoi usare, studiare, migliorare e ricondividere quest\'app con <b>qualunque mezzo</b> e per <b>qualsiasi scopo</b>: a patto di mantenere sempre questi diritti a tua volta e di dare credito a Marco Magliano.
+		</p>
+
+		<h2>Note</h2>
+		<p>Quest\'applicazione è rilasciata <b>nella speranza che sia utile a tutti</b> ma senza NESSUNA garanzia.</p>
+		<p>Buon utilizzo! :)</p>
+    ]]>
+    </string>
+
+
+</resources>

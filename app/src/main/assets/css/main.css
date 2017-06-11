@@ -1,0 +1,12 @@
+html, body{
+	margin:0px;
+}
+
+.olImageLoadError {
+	display: none !important;
+}
+
+#map {
+	width:100%;
+	height:100%;
+}

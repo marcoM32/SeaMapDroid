@@ -1,0 +1,12 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="org.seamapdroid.MainActivity">
+
+    <item
+        android:id="@+id/action_source"
+        android:title="@string/action_source" />
+    <item
+        android:id="@+id/action_about"
+        android:title="@string/action_about" />
+</menu>

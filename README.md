@@ -2,12 +2,12 @@
 
 SeaMapDroid
 ===========
-An open source application for Android for consult the libre online nautical maps OpenSeaMap (map.openseamap.org).
+An open source Android  application for consult the libre online nautical maps OpenSeaMap (map.openseamap.org).
 
 Screenshots
 -----------
-[<img src="./photo1.jpg" width="200" height="300">](https://github.com/marcoM32/SeaMapDroid)
-[<img src="./photo2.jpg" width="200" height="300">](https://github.com/marcoM32/SeaMapDroid)
+[<img src="./photo1.jpg" width="200" height="300">](https://github.com/marcoM32/SeaMapDroid/blob/master/photo1.jpg)
+[<img src="./photo2.jpg" width="200" height="300">](https://github.com/marcoM32/SeaMapDroid/blob/master/photo2.jpg)
 
 Features
 --------

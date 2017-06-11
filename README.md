@@ -6,8 +6,8 @@ An open source application for Android for consult the libre online nautical map
 
 Screenshots
 -----------
-[<img src="./photo1.jpg">](https://github.com/marcoM32/SeaMapDroid)
-[<img src="./photo2.jpg">](https://github.com/marcoM32/SeaMapDroid)
+[<img src="./photo1.jpg" width="200" height="300">](https://github.com/marcoM32/SeaMapDroid)
+[<img src="./photo2.jpg" width="200" height="300">](https://github.com/marcoM32/SeaMapDroid)
 
 Features
 --------

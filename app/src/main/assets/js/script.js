@@ -45,18 +45,18 @@ function init() {
 
 	// Mapnik (Base map)
 	var mapnik = new OpenLayers.Layer.OSM("OpenStreetMap (Mapnik)");
+	// Water Depth
+	var deeps = new OpenLayers.Layer.WMS("deeps_gwc", "http://osm.franken.de:8080/geoserver/gwc/service/wms",{layers: "gebco_2014", format:"image/png"},{isBaseLayer: false, visibility: true});
 	// Seamark
 	var seamark = new OpenLayers.Layer.TMS ( "seamarks", "http://t1.openseamap.org/seamark/", { numZoomLevels: 18, type: 'png', getURL:getTileURL, isBaseLayer:false, displayOutsideMaxExtent:true });
 	// POI-Layer for harbours
 	var pois = new OpenLayers.Layer.Vector("pois", { projection: new OpenLayers.Projection("EPSG:4326"), visibility: true, displayOutsideMaxExtent:true});
-	// Water Depth
-	var deeps = new OpenLayers.Layer.WMS("deeps_gwc", "http://osm.franken.de:8080/geoserver/gwc/service/wms",{layers: "gebco_2014", format:"image/png"},{isBaseLayer: false, visibility: true});
 	// Grid WGS
 	var grid = new OpenLayers.Layer.GridWGS("coordinateGrid", {visibility: true, zoomUnits: zoomUnits});
-	pois.setOpacity(0.8);
 	deeps.setOpacity(0.8);
+	pois.setOpacity(0.8);
 	// Add layers on the base map
-	map.addLayers([mapnik, seamark, pois, deeps, grid]);
+	map.addLayers([mapnik, deeps, seamark, pois, grid]);
 
 	var lonLat = new OpenLayers.LonLat(lon ,lat)
 	.transform(

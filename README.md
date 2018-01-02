@@ -17,7 +17,7 @@ Features
 
 To do
 -----
-- [ ] Add the settings activity
+- [X] Add the settings activity
 - [ ] Add the legend of the map
 - [ ] Internationalization of software
 

@@ -1,5 +1,18 @@
 <resources>
     <string name="app_name" translatable="false">SeaMapDroid</string>
+    <string name="no_connection">Internet connection is required</string>
+    <string name="action_preferences">Settings</string>
+    <string name="preferences">Map settings</string>
+    <string name="preference_show_mapnik">Show Mapnik layer</string>
+    <string name="preference_show_mapnik_summary">Enable the layer for add it in the map</string>
+    <string name="preference_show_deeps">Show Deeps layer</string>
+    <string name="preference_show_deeps_summary">Enable the layer for add it in the map</string>
+    <string name="preference_show_seamark">Show Seamark layer</string>
+    <string name="preference_show_seamark_summary">Enable the layer for add it in the map</string>
+    <string name="preference_show_pois">Show Pois layer</string>
+    <string name="preference_show_pois_summary">Enable the layer for add it in the map</string>
+    <string name="preference_show_grid">Show Grid layer</string>
+    <string name="preference_show_grid_summary">Enable the layer for add it in the map</string>
     <string name="action_source">Source code</string>
     <string name="action_about">About</string>
     <string name="about">About of SeaMapDroid</string>

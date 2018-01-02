@@ -1,4 +1,17 @@
 <resources>
+    <string name="action_preferences">Impostazioni</string>
+    <string name="no_connection">È richiesta una connessione ad internet</string>
+    <string name="preferences">Impostazioni mappa</string>
+    <string name="preference_show_mapnik">Visualizza layer principale</string>
+    <string name="preference_show_mapnik_summary">Abilita il layer per visualizzarlo sulla mappa</string>
+    <string name="preference_show_deeps">Visualizza layer profondità</string>
+    <string name="preference_show_deeps_summary">Abilita il layer per visualizzarlo sulla mappa</string>
+    <string name="preference_show_seamark">Visualizza layer marcatori nautici</string>
+    <string name="preference_show_seamark_summary">Abilita il layer per visualizzarlo sulla mappa</string>
+    <string name="preference_show_pois">Visualizza layer porti</string>
+    <string name="preference_show_pois_summary">Abilita il layer per visualizzarlo sulla mappa</string>
+    <string name="preference_show_grid">Visualizza layer griglia coordinate</string>
+    <string name="preference_show_grid_summary">Abilita il layer per visualizzarlo sulla mappa</string>
     <string name="action_source">Codice sorgente</string>
     <string name="action_about">Altro</string>
     <string name="about">Altro su SeaMapDroid</string>
@@ -34,6 +47,4 @@
 		<p>Buon utilizzo! :)</p>
     ]]>
     </string>
-
-
 </resources>

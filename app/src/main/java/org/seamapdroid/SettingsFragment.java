@@ -15,16 +15,17 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+package org.seamapdroid;
 
-html, body{
-	margin:0px;
-}
+import android.os.Bundle;
+import android.preference.PreferenceFragment;
 
-.olImageLoadError {
-	display: none !important;
-}
+public class SettingsFragment extends PreferenceFragment {
 
-#map {
-	width:100%;
-	height:100%;
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        addPreferencesFromResource(R.xml.preferences);
+    }
 }

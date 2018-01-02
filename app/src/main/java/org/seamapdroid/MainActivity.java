@@ -17,23 +17,50 @@
  */
 package org.seamapdroid;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
+
+    private WebView aWebView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        WebView aWebView  = (WebView) findViewById(R.id.aWebView);
+        aWebView = (WebView) findViewById(R.id.aWebView);
         aWebView.getSettings().setJavaScriptEnabled(true);
-        aWebView.loadUrl("file:///android_asset/index.html");
+
+        if (((ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE)).getActiveNetworkInfo() != null) {
+            aWebView.loadUrl("file:///android_asset/index.html");
+
+            aWebView.setWebViewClient(new WebViewClient() {
+
+                public void onPageFinished(WebView view, String url) {
+                    loadPreferances();
+                }
+            });
+        } else {
+            Toast.makeText(MainActivity.this, R.string.no_connection, Toast.LENGTH_LONG).show();
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        loadPreferances();
     }
 
     @Override
@@ -46,6 +73,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case R.id.action_preferences:
+                startActivity(new Intent(MainActivity.this, SettingsActivity.class));
+                return true;
             case R.id.action_source:
                 Intent aBrowserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/marcoM32/SeaMapDroid"));
                 startActivity(aBrowserIntent);
@@ -57,4 +87,12 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    public void loadPreferances() {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        aWebView.loadUrl("javascript:setLayerState(MAPNIK," + preferences.getBoolean(SettingsActivity.MAPNIK, true) + ");");
+        aWebView.loadUrl("javascript:setLayerState(DEEPS," + preferences.getBoolean(SettingsActivity.DEEPS, false) + ");");
+        aWebView.loadUrl("javascript:setLayerState(SEAMARK," + preferences.getBoolean(SettingsActivity.SEAMARK, false) + ");");
+        aWebView.loadUrl("javascript:setLayerState(POIS," + preferences.getBoolean(SettingsActivity.POIS, false) + ");");
+        aWebView.loadUrl("javascript:setLayerState(GRID," + preferences.getBoolean(SettingsActivity.GRID, false) + ");");
+    }
 }

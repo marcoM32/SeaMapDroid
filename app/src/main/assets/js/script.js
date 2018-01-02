@@ -17,9 +17,21 @@
  */
 
 // Initial position of the map
-var lat=42.500;
-var lon=12.500;
-var zoom=5;
+var lat = 42.500;
+var lon = 12.500;
+var zoom = 5;
+
+var layer_mapnik;
+var layer_deeps;
+var layer_seamark;
+var layer_pois;
+var layer_grid;
+
+const MAPNIK = 1;
+const DEEPS = 2;
+const SEAMARK = 3;
+const POIS = 4;
+const GRID = 5;
 
 // Function for initialize the map
 function init() {
@@ -44,19 +56,19 @@ function init() {
     }
 
 	// Mapnik (Base map)
-	var mapnik = new OpenLayers.Layer.OSM("OpenStreetMap (Mapnik)");
+	layer_mapnik = new OpenLayers.Layer.OSM("OpenStreetMap (Mapnik)");
 	// Water Depth
-	var deeps = new OpenLayers.Layer.WMS("deeps_gwc", "http://osm.franken.de:8080/geoserver/gwc/service/wms",{layers: "gebco_2014", format:"image/png"},{isBaseLayer: false, visibility: true});
+	layer_deeps = new OpenLayers.Layer.WMS("deeps_gwc", "http://osm.franken.de:8080/geoserver/gwc/service/wms",{layers: "gebco_2014", format:"image/png"},{isBaseLayer: false, visibility: false});
 	// Seamark
-	var seamark = new OpenLayers.Layer.TMS ( "seamarks", "http://t1.openseamap.org/seamark/", { numZoomLevels: 18, type: 'png', getURL:getTileURL, isBaseLayer:false, displayOutsideMaxExtent:true });
+	layer_seamark = new OpenLayers.Layer.TMS ( "seamarks", "http://t1.openseamap.org/seamark/", { numZoomLevels: 18, type: 'png', getURL:getTileURL, isBaseLayer:false, displayOutsideMaxExtent:true , visibility: false});
 	// POI-Layer for harbours
-	var pois = new OpenLayers.Layer.Vector("pois", { projection: new OpenLayers.Projection("EPSG:4326"), visibility: true, displayOutsideMaxExtent:true});
+	layer_pois = new OpenLayers.Layer.Vector("pois", { projection: new OpenLayers.Projection("EPSG:4326"), visibility: false, displayOutsideMaxExtent:true});
 	// Grid WGS
-	var grid = new OpenLayers.Layer.GridWGS("coordinateGrid", {visibility: true, zoomUnits: zoomUnits});
-	deeps.setOpacity(0.8);
-	pois.setOpacity(0.8);
+	layer_grid = new OpenLayers.Layer.GridWGS("coordinateGrid", {visibility: false, zoomUnits: zoomUnits});
+	layer_deeps.setOpacity(0.8);
+	layer_pois.setOpacity(0.8);
 	// Add layers on the base map
-	map.addLayers([mapnik, deeps, seamark, pois, grid]);
+	map.addLayers([layer_mapnik, layer_deeps, layer_seamark, layer_pois, layer_grid]);
 
 	var lonLat = new OpenLayers.LonLat(lon ,lat)
 	.transform(
@@ -64,7 +76,7 @@ function init() {
 		map.getProjectionObject() // to Spherical Mercator Projection
 	);
 
-	map.setCenter (lonLat, zoom);
+	map.setCenter(lonLat, zoom);
 
 }
 
@@ -87,4 +99,17 @@ function getTileURL(bounds) {
 	}
 		return url+path;
 	}
+}
+
+function setLayerState(layer, boolean) {
+	if(layer == MAPNIK)
+		layer_mapnik.setVisibility(boolean);
+	else if(layer == DEEPS)
+		layer_deeps.setVisibility(boolean);
+	else if(layer == SEAMARK)
+		layer_seamark.setVisibility(boolean);
+	else if(layer == POIS)
+		layer_pois.setVisibility(boolean);
+	else if(layer == GRID)
+		layer_grid.setVisibility(boolean);
 }

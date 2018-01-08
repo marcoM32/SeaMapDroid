@@ -65,4 +65,18 @@
             android:persistent="true"
             android:defaultValue="false" />
     </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="pref_markdown_category"
+        android:title="@string/preference_gps">
+
+    <CheckBoxPreference
+        android:key="pref_center_map"
+        android:icon="@android:drawable/ic_menu_view"
+        android:title="@string/preference_center_map"
+        android:summary="@string/preference_center_map_summary"
+        android:persistent="true"
+        android:defaultValue="false" />
+    </PreferenceCategory>
+
 </PreferenceScreen>

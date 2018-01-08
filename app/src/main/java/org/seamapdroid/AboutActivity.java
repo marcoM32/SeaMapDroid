@@ -23,6 +23,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
 import android.text.Spanned;
 import android.text.method.LinkMovementMethod;
+import android.view.MenuItem;
 import android.widget.TextView;
 
 public class AboutActivity extends AppCompatActivity {
@@ -39,5 +40,20 @@ public class AboutActivity extends AppCompatActivity {
         // Back button
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            // Home, finish
+            case android.R.id.home:
+                finish();
+                break;
+
+            default:
+                return false;
+        }
+
+        return true;
     }
 }

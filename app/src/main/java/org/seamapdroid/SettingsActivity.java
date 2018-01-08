@@ -30,6 +30,8 @@ public class SettingsActivity extends AppCompatActivity {
     public static final String POIS = "pref_pois";
     public static final String GRID = "pref_grid";
 
+    public static final String CENTER_MAP = "pref_center_map";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

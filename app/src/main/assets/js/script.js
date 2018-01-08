@@ -17,9 +17,9 @@
  */
 
 // Initial position of the map
-var lat = 42.500;
-var lon = 12.500;
-var zoom = 5;
+const LAT = 42.500;
+const LON = 12.500;
+const ZOOM = 5;
 
 var layer_mapnik;
 var layer_deeps;
@@ -55,6 +55,8 @@ function init() {
 		}
     }
 
+    user_markers = new OpenLayers.Layer.Markers( "Markers" );
+
 	// Mapnik (Base map)
 	layer_mapnik = new OpenLayers.Layer.OSM("OpenStreetMap (Mapnik)");
 	// Water Depth
@@ -68,15 +70,15 @@ function init() {
 	layer_deeps.setOpacity(0.8);
 	layer_pois.setOpacity(0.8);
 	// Add layers on the base map
-	map.addLayers([layer_mapnik, layer_deeps, layer_seamark, layer_pois, layer_grid]);
+	map.addLayers([user_markers, layer_mapnik, layer_deeps, layer_seamark, layer_pois, layer_grid]);
 
-	var lonLat = new OpenLayers.LonLat(lon ,lat)
+	var lonLat = new OpenLayers.LonLat(LON ,LAT)
 	.transform(
 		new OpenLayers.Projection("EPSG:4326"), // transform from WGS 1984
 		map.getProjectionObject() // to Spherical Mercator Projection
 	);
 
-	map.setCenter(lonLat, zoom);
+	map.setCenter(lonLat, ZOOM);
 
 }
 
@@ -112,4 +114,22 @@ function setLayerState(layer, boolean) {
 		layer_pois.setVisibility(boolean);
 	else if(layer == GRID)
 		layer_grid.setVisibility(boolean);
+}
+
+function setUserPosition(lat, lon, follow) {
+    clearMap();
+
+    // Add a new actual position mark
+    var pos = new OpenLayers.LonLat(lon, lat) //
+        .transform(new OpenLayers.Projection("EPSG:4326"), new OpenLayers.Projection("EPSG:900913"));
+    this.user_markers.addMarker(new OpenLayers.Marker(pos));
+
+    if(follow) {
+        this.map.setCenter(pos, this.map.getZoom());
+    }
+}
+
+function clearMap() {
+    // I clean the map
+    this.user_markers.clearMarkers();
 }

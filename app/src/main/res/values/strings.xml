@@ -13,6 +13,13 @@
     <string name="preference_show_pois_summary">Enable the layer for add it in the map</string>
     <string name="preference_show_grid">Show Grid layer</string>
     <string name="preference_show_grid_summary">Enable the layer for add it in the map</string>
+    <string name="preference_gps">Gps service</string>
+    <string name="preference_center_map">Keep centered map</string>
+    <string name="preference_center_map_summary">Keep your map centered when your position is updated</string>
+    <string name="gps_ready">The location service is ready to trace your position</string>
+    <string name="gps_not_available">The location service is no longer available</string>
+    <string name="gps_on">Tracking enabled</string>
+    <string name="gps_off">Tracking disabled</string>
     <string name="action_source">Source code</string>
     <string name="action_about">About</string>
     <string name="about">About of SeaMapDroid</string>

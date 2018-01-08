@@ -12,6 +12,13 @@
     <string name="preference_show_pois_summary">Abilita il layer per visualizzarlo sulla mappa</string>
     <string name="preference_show_grid">Visualizza layer griglia coordinate</string>
     <string name="preference_show_grid_summary">Abilita il layer per visualizzarlo sulla mappa</string>
+    <string name="preference_gps">Servizio GPS</string>
+    <string name="preference_center_map">Mantieni mappa centrata</string>
+    <string name="preference_center_map_summary">Mantieni la mappa centrata rispetto alla mia posizione</string>
+    <string name="gps_ready">Il servizio GPS è pronto per l\'utilizzo</string>
+    <string name="gps_not_available">Il servizio GPS non è più disponibile</string>
+    <string name="gps_on"> Geolocalizzazione attiva</string>
+    <string name="gps_off">Geolocalizzazione disattiva</string>
     <string name="action_source">Codice sorgente</string>
     <string name="action_about">Altro</string>
     <string name="about">Altro su SeaMapDroid</string>

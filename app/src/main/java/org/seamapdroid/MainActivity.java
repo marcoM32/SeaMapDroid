@@ -17,16 +17,27 @@
  */
 package org.seamapdroid;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
@@ -35,10 +46,20 @@ public class MainActivity extends AppCompatActivity {
 
     private WebView aWebView;
 
+    private LocationListener locationListener;
+
+    private LocationManager locationManager;
+
+    private FloatingActionButton floatingActionButton;
+
+    private boolean recording;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
         aWebView = (WebView) findViewById(R.id.aWebView);
         aWebView.getSettings().setJavaScriptEnabled(true);
 
@@ -52,15 +73,85 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
         } else {
-            Toast.makeText(MainActivity.this, R.string.no_connection, Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), R.string.no_connection, Toast.LENGTH_LONG).show();
         }
+
+        locationListener = new LocationListener() {
+            @Override
+            public void onLocationChanged(Location location) {
+                SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                aWebView.loadUrl("javascript:setUserPosition(" + location.getLatitude() + "," + location.getLongitude() + //
+                        "," +  preferences.getBoolean(SettingsActivity.CENTER_MAP, false) + ");");
+            }
+
+            @Override
+            public void onStatusChanged(String provider, int status, Bundle extras) {
+            }
+
+            @Override
+            public void onProviderEnabled(String provider) {
+                Toast.makeText(getApplicationContext(), R.string.gps_ready, Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onProviderDisabled(String provider) {
+                aWebView.loadUrl("javascript:clearMap()");
+
+                if(locationManager != null) {
+                    locationManager.removeUpdates(locationListener);
+                }
+
+                Toast.makeText(getApplicationContext(), R.string.gps_not_available, Toast.LENGTH_LONG).show();
+            }
+        };
+
+        floatingActionButton = (FloatingActionButton) findViewById(R.id.floatingActionButton);
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!recording) {
+                    locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+                    if(locationManager != null) {
+                        if (Build.VERSION.SDK_INT >= 23 &&
+                                ContextCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
+                                ContextCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 0, locationListener);
+                            recording = true;
+
+                            Toast.makeText(getApplicationContext(), R.string.gps_on, Toast.LENGTH_LONG).show();
+                        }
+                    }
+                } else {
+                    if(locationManager != null) {
+                        aWebView.loadUrl("javascript:clearMap()");
+                        locationManager.removeUpdates(locationListener);
+                        recording = false;
+
+                        Toast.makeText(getApplicationContext(), R.string.gps_off, Toast.LENGTH_LONG).show();
+                    }
+                }
+            }
+        });
+
+        checkPermission();
     }
+
+
 
     @Override
     public void onResume() {
         super.onResume();
 
         loadPreferances();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        if(locationManager != null) {
+            locationManager.removeUpdates(locationListener);
+        }
     }
 
     @Override
@@ -87,12 +178,28 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * The method load the user preferences in the map; is called
+     * every time that the layers are turned on and off.
+     */
     public void loadPreferances() {
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         aWebView.loadUrl("javascript:setLayerState(MAPNIK," + preferences.getBoolean(SettingsActivity.MAPNIK, true) + ");");
         aWebView.loadUrl("javascript:setLayerState(DEEPS," + preferences.getBoolean(SettingsActivity.DEEPS, false) + ");");
         aWebView.loadUrl("javascript:setLayerState(SEAMARK," + preferences.getBoolean(SettingsActivity.SEAMARK, false) + ");");
         aWebView.loadUrl("javascript:setLayerState(POIS," + preferences.getBoolean(SettingsActivity.POIS, false) + ");");
         aWebView.loadUrl("javascript:setLayerState(GRID," + preferences.getBoolean(SettingsActivity.GRID, false) + ");");
+    }
+
+    /**
+     * The method check if the app permissions is
+     * all granted otherwise it requires them
+     */
+    public void checkPermission() {
+        if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_COARSE_LOCATION ) != PackageManager.PERMISSION_GRANTED && //
+                ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION ) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(MainActivity.this, new String[] {  Manifest.permission.ACCESS_COARSE_LOCATION, //
+                    Manifest.permission.ACCESS_FINE_LOCATION  },  256);
+        }
     }
 }

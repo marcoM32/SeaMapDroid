@@ -4,6 +4,10 @@ SeaMapDroid
 ===========
 An open source Android  application for consult the libre online nautical maps OpenSeaMap (map.openseamap.org).
 
+[<img src="https://f-droid.org/badge/get-it-on.png"
+      alt="Get it on F-Droid"
+      height="80">](https://f-droid.org/packages/org.seamapdroid/)
+
 Screenshots
 -----------
 [<img src="./photo1.jpg" width="200" height="300">](https://github.com/marcoM32/SeaMapDroid/blob/master/photo1.jpg)

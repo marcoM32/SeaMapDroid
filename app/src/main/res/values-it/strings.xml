@@ -1,6 +1,13 @@
 <resources>
     <string name="action_preferences">Impostazioni</string>
     <string name="no_connection">È richiesta una connessione ad internet</string>
+    <string name="search">Cerca</string>
+    <string name="legend">Legenda</string>
+    <string name="quit">Chiudi</string>
+    <string name="ok">Ok</string>
+    <string name="cancel">Annulla</string>
+    <string name="wrong_query">Query non valida</string>
+    <string name="no_result_found">Nessun risultato trovato</string>
     <string name="preferences">Impostazioni mappa</string>
     <string name="preference_show_mapnik">Visualizza layer principale</string>
     <string name="preference_show_mapnik_summary">Abilita il layer per visualizzarlo sulla mappa</string>

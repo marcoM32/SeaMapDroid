@@ -1,6 +1,13 @@
 <resources>
     <string name="app_name" translatable="false">SeaMapDroid</string>
     <string name="no_connection">Internet connection is required</string>
+    <string name="search">Search</string>
+    <string name="legend">Legend</string>
+    <string name="quit">Quit</string>
+    <string name="ok">Ok</string>
+    <string name="cancel">Cancel</string>
+    <string name="wrong_query">Invalid query</string>
+    <string name="no_result_found">No result found</string>
     <string name="action_preferences">Settings</string>
     <string name="preferences">Map settings</string>
     <string name="preference_show_mapnik">Show Mapnik layer</string>

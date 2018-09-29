@@ -20,6 +20,7 @@ package org.seamapdroid;
 import android.Manifest;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
@@ -31,20 +32,42 @@ import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Process;
 import android.preference.PreferenceManager;
+import android.provider.Settings;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.text.InputType;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.EditText;
 import android.widget.Toast;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.util.Locale;
+
+import javax.net.ssl.HttpsURLConnection;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -62,21 +85,35 @@ public class MainActivity extends AppCompatActivity {
 
     private Boolean recording;
 
+    private Boolean gpsState;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        setContentView(R.layout.activity_main);
 
         recording = Boolean.FALSE;
+        gpsState = Boolean.FALSE;
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
         aWebView = (WebView) findViewById(R.id.aWebView);
         aWebView.getSettings().setJavaScriptEnabled(Boolean.TRUE);
         aWebView.getSettings().setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
+
+        if (isNetworkAvailable()) {
+            aWebView.loadUrl(MAP_PAGE_URL);
+        } else {
+            aWebView.loadUrl(ERROR_PAGE_URL);
+            Toast.makeText(getApplicationContext(), R.string.no_connection, Toast.LENGTH_LONG).show();
+        }
+
         aWebView.setWebViewClient(new WebViewClient() {
             @Override
             public void onPageFinished(WebView view, String url) {
-                if (aWebView.getUrl().equals(MAP_PAGE_URL))
+                if(MAP_PAGE_URL.equals(url))
                     loadPreferances();
             }
         });
@@ -105,59 +142,70 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onProviderDisabled(String provider) {
-                if (aWebView.getUrl().equals(MAP_PAGE_URL))
-                    aWebView.loadUrl("javascript:clearMap()");
-
-                if (locationManager != null) {
-                    locationManager.removeUpdates(locationListener);
-                    recording = Boolean.FALSE;
-                }
-
+                disconnectGPS();
                 Toast.makeText(getApplicationContext(), R.string.gps_not_available, Toast.LENGTH_LONG).show();
             }
         };
 
         floatingActionButton = (FloatingActionButton) findViewById(R.id.floatingActionButton);
-        floatingActionButton.setEnabled(Boolean.FALSE);
 
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         if (locationManager != null) {
-            floatingActionButton.setEnabled(locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER));
+            gpsState = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
         }
 
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!recording) {
-                    if (locationManager != null) {
-                        if (Build.VERSION.SDK_INT >= 23 && //
-                                ContextCompat.checkSelfPermission(getApplicationContext(), //
-                                        android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-                            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 0, locationListener);
-                            recording = Boolean.TRUE;
-                            Toast.makeText(getApplicationContext(), R.string.gps_on, Toast.LENGTH_LONG).show();
+                if (gpsState) {
+                    if (!recording) {
+                        if (locationManager != null) {
+                            if (Build.VERSION.SDK_INT >= 23 && //
+                                    ContextCompat.checkSelfPermission(getApplicationContext(), //
+                                            Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 0, locationListener);
+                                recording = Boolean.TRUE;
+                                Toast.makeText(getApplicationContext(), R.string.gps_on, Toast.LENGTH_LONG).show();
+                            }
                         }
-                    }
-                } else {
-                    if (locationManager != null) {
-                        if (aWebView.getUrl().equals(MAP_PAGE_URL))
-                            aWebView.loadUrl("javascript:clearMap()");
-                        locationManager.removeUpdates(locationListener);
-                        recording = Boolean.FALSE;
-
+                    } else {
+                        disconnectGPS();
                         Toast.makeText(getApplicationContext(), R.string.gps_off, Toast.LENGTH_LONG).show();
                     }
+                } else {
+                    startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
                 }
             }
         });
 
-        NetworkInfo networkInfo = ((ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE)).getActiveNetworkInfo();
-        if (networkInfo != null && networkInfo.isConnectedOrConnecting()) {
-            aWebView.loadUrl(MAP_PAGE_URL);
-        } else {
-            aWebView.loadUrl(ERROR_PAGE_URL);
-            Toast.makeText(getApplicationContext(), R.string.no_connection, Toast.LENGTH_LONG).show();
-        }
+        final DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.nav_search:
+                        if(isNetworkAvailable()) {
+                            searchCities();
+                        } else {
+                            Toast.makeText(getApplicationContext(), R.string.no_connection, Toast.LENGTH_LONG).show();
+                        }
+                        break;
+                    case R.id.nav_legend:
+                        String url = "http://map.openseamap.org/legend.php?lang=" + Locale.getDefault().getLanguage();
+                        Intent aBrowserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                        startActivity(aBrowserIntent);
+                        break;
+                    case R.id.nav_quit:
+                        disconnectGPS();
+                        Process.killProcess(Process.myPid());
+                        break;
+                }
+
+                drawerLayout.closeDrawers();
+                return Boolean.TRUE;
+            }
+        });
 
         checkPermission();
     }
@@ -167,7 +215,8 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
 
         if (aWebView.getUrl().equals(MAP_PAGE_URL)) {
-            aWebView.loadUrl("javascript:clearMap()");
+            aWebView.loadUrl("javascript:clearUserMarker()");
+            aWebView.loadUrl("javascript:clearPoiMarker()");
             loadPreferances();
         }
     }
@@ -175,11 +224,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-
-        if (locationManager != null) {
-            locationManager.removeUpdates(locationListener);
-            recording = Boolean.FALSE;
-        }
+        disconnectGPS();
     }
 
     @Override
@@ -206,6 +251,53 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
+     * This method disconnect the GPS listener
+     */
+    private void disconnectGPS() {
+        if (locationManager != null) {
+            if (aWebView.getUrl().equals(MAP_PAGE_URL))
+                aWebView.loadUrl("javascript:clearUserMarker()");
+            locationManager.removeUpdates(locationListener);
+            recording = Boolean.FALSE;
+        }
+    }
+
+    /**
+     * This method displays an alert dialog to allow the user to search a city by the OSM api
+     */
+    private void searchCities() {
+        final AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        alert.setTitle(R.string.search);
+
+        final EditText input = new EditText(this);
+        input.setInputType(InputType.TYPE_CLASS_TEXT);
+        input.setMaxLines(1);
+        input.setSingleLine(Boolean.TRUE);
+
+        alert.setView(input);
+        alert.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                String result = input.getText().toString();
+                if (result.matches("^[A-Za-z\\s]+$")) {
+                    SearchTask searchTask = new SearchTask(result);
+                    searchTask.execute();
+                } else {
+                    Toast.makeText(MainActivity.this, R.string.wrong_query, //
+                            Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        alert.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                closeContextMenu();
+            }
+        });
+
+        alert.show();
+    }
+
+    /**
      * The method load the user preferences in the map; is called
      * every time that the layers are turned on and off.
      */
@@ -229,22 +321,28 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
+     * The method check if the device is connected on internet
+     *
+     * @return True if the network is available
+     */
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
+
+    /**
      * Receiver class on connectivity service state
      */
     class NetworkBroadcast extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
-            ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(CONNECTIVITY_SERVICE);
-            NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
-            if (networkInfo != null && networkInfo.isConnectedOrConnecting()) {
+            if (isNetworkAvailable()) {
                 aWebView.loadUrl(MAP_PAGE_URL);
             } else {
                 aWebView.loadUrl(ERROR_PAGE_URL);
-                floatingActionButton.setEnabled(Boolean.FALSE);
-                if (locationManager != null) {
-                    locationManager.removeUpdates(locationListener);
-                    recording = Boolean.FALSE;
-                }
+                gpsState = Boolean.FALSE;
+                disconnectGPS();
             }
         }
     }
@@ -256,15 +354,77 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onReceive(Context context, Intent intent) {
             locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-            if (locationManager != null && (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER))) {
-                floatingActionButton.setEnabled(Boolean.TRUE);
+            if (locationManager != null && locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+                gpsState = Boolean.TRUE;
             } else {
-                floatingActionButton.setEnabled(Boolean.FALSE);
-                if (locationManager != null) {
-                    locationManager.removeUpdates(locationListener);
-                    recording = Boolean.FALSE;
-                }
+                gpsState = Boolean.FALSE;
+                disconnectGPS();
             }
+        }
+    }
+
+    /**
+     * This class provides a simple AsyncTask to query the OSM api
+     */
+    class SearchTask extends AsyncTask<String, String, Class<Void>> {
+
+        private String query;
+
+        public SearchTask(String query) {
+            this.query = query;
+        }
+
+        @Override
+        protected Class<Void> doInBackground(String... params) {
+            HttpsURLConnection urlConnection = null;
+            try {
+                URL url = new URL("https://nominatim.openstreetmap.org/search/" + query + "?format=json&limit=1");
+                urlConnection = (HttpsURLConnection) url.openConnection();
+                if (urlConnection.getResponseCode() == 200) {
+                    StringBuilder stringBuilder = new StringBuilder();
+
+                    BufferedReader bufferedReader = null;
+                    try {
+                        InputStreamReader inputStreamReader = new InputStreamReader(urlConnection.getInputStream());
+                        bufferedReader = new BufferedReader(inputStreamReader);
+
+                        String line;
+                        while ((line = bufferedReader.readLine()) != null) {
+                            stringBuilder.append(line + "\n");
+                        }
+                    } catch (RuntimeException ex) {
+                        ex.printStackTrace();
+                    } finally {
+                        if(bufferedReader != null)
+                            bufferedReader.close();
+                    }
+
+                    JSONArray jsonArray = new JSONArray(stringBuilder.toString());
+                    if(jsonArray.length() == 1) {
+                        JSONObject jsonObject = jsonArray.getJSONObject(0);
+                        final Double latitude = jsonObject.getDouble("lat");
+                        final Double longitude = jsonObject.getDouble("lon");
+                        aWebView.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                aWebView.loadUrl("javascript:setPoiPosition(" + latitude + "," + longitude + ");");
+                            }
+                        });
+                    } else {
+                        MainActivity.this.runOnUiThread(new Runnable() {
+                            public void run() {
+                                Toast.makeText(MainActivity.this, R.string.no_result_found, Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                }
+            } catch (IOException | JSONException e) {
+                e.printStackTrace();
+            } finally {
+                if(urlConnection != null)
+                    urlConnection.disconnect();
+            }
+            return Void.class;
         }
     }
 }

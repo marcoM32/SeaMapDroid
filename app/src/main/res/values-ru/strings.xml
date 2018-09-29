@@ -1,6 +1,13 @@
 <resources>
-    <string name="no_connection">Необходимо соединение с Интернетом</string>
     <string name="action_preferences">Настройки</string>
+    <string name="no_connection">Необходимо соединение с Интернетом</string>
+    <string name="search">поиск</string>
+    <string name="legend">легенда</string>
+    <string name="quit">близко</string>
+    <string name="ok">хорошо</string>
+    <string name="cancel">отменить</string>
+    <string name="wrong_query">Недействительный запрос</string>
+    <string name="no_result_found">Результатов не найдено</string>
     <string name="preferences">Настройки карты</string>
     <string name="preference_show_mapnik">Слой Карты</string>
     <string name="preference_show_mapnik_summary">Активируйте для отбражения слоя на карте</string>

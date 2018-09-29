@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <group android:id="@+id/menu_top"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_search"
+            android:icon="@android:drawable/ic_menu_search"
+            android:title="@string/search" />
+
+        <item
+            android:id="@+id/nav_legend"
+            android:icon="@android:drawable/ic_menu_agenda"
+            android:title="@string/legend" />
+    </group>
+
+    <group android:id="@+id/menu_buttom"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_quit"
+            android:icon="@android:drawable/ic_menu_close_clear_cancel"
+            android:title="@string/quit" />
+    </group>
+</menu>

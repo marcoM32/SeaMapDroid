@@ -39,21 +39,21 @@ public class AboutActivity extends AppCompatActivity {
 
         // Back button
         ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setDisplayHomeAsUpEnabled(Boolean.TRUE);
+        actionBar.setSubtitle(BuildConfig.VERSION_NAME);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            // Home, finish
             case android.R.id.home:
                 finish();
                 break;
 
             default:
-                return false;
+                return Boolean.FALSE;
         }
 
-        return true;
+        return Boolean.TRUE;
     }
 }

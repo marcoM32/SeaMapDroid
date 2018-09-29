@@ -21,6 +21,8 @@ const LAT = 42.500;
 const LON = 12.500;
 const ZOOM = 5;
 
+var user_markers;
+var poi_markers;
 var layer_mapnik;
 var layer_deeps;
 var layer_seamark;
@@ -54,8 +56,9 @@ function init() {
 			return false;
 		}
     }
-
+	
     user_markers = new OpenLayers.Layer.Markers( "Markers" );
+	poi_markers = new OpenLayers.Layer.Markers( "Markers" );
 
 	// Mapnik (Base map)
 	layer_mapnik = new OpenLayers.Layer.OSM("OpenStreetMap (Mapnik)");
@@ -70,7 +73,7 @@ function init() {
 	layer_deeps.setOpacity(0.8);
 	layer_pois.setOpacity(0.8);
 	// Add layers on the base map
-	map.addLayers([user_markers, layer_mapnik, layer_deeps, layer_seamark, layer_pois, layer_grid]);
+	map.addLayers([user_markers, poi_markers, layer_mapnik, layer_deeps, layer_seamark, layer_pois, layer_grid]);
 
 	var lonLat = new OpenLayers.LonLat(LON ,LAT)
 	.transform(
@@ -117,19 +120,38 @@ function setLayerState(layer, boolean) {
 }
 
 function setUserPosition(lat, lon, follow) {
-    clearMap();
+    clearUserMarker();
 
     // Add a new actual position mark
     var pos = new OpenLayers.LonLat(lon, lat) //
         .transform(new OpenLayers.Projection("EPSG:4326"), new OpenLayers.Projection("EPSG:900913"));
-    this.user_markers.addMarker(new OpenLayers.Marker(pos));
+    this.user_markers.addMarker(new OpenLayers.Marker(pos, new OpenLayers.Icon('./images/marker.png', //
+		new OpenLayers.Size(16,16), null)));
 
     if(follow) {
         this.map.setCenter(pos, this.map.getZoom());
     }
 }
 
-function clearMap() {
-    // I clean the map
+function setPoiPosition(lat, lon) {
+	clearPoiMarker();
+	
+	// Add a new POI position mark
+    var pos = new OpenLayers.LonLat(lon, lat) //
+        .transform(new OpenLayers.Projection("EPSG:4326"), new OpenLayers.Projection("EPSG:900913"));
+    this.poi_markers.addMarker(new OpenLayers.Marker(pos));
+	
+	if(this.user_markers.markers.length > 0) {
+		this.map.zoomToMaxExtent();
+	} else {
+		this.map.setCenter(pos, this.map.getZoom());
+	}
+}
+
+function clearUserMarker() {
     this.user_markers.clearMarkers();
+}
+
+function clearPoiMarker() {
+	this.poi_markers.clearMarkers();
 }

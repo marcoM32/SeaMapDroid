@@ -140,9 +140,9 @@ function setPoiPosition(lat, lon) {
     var pos = new OpenLayers.LonLat(lon, lat) //
         .transform(new OpenLayers.Projection("EPSG:4326"), new OpenLayers.Projection("EPSG:900913"));
     this.poi_markers.addMarker(new OpenLayers.Marker(pos));
-	
+
 	if(this.user_markers.markers.length > 0) {
-		this.map.zoomToMaxExtent();
+		this.map.setCenter(pos, 3);
 	} else {
 		this.map.setCenter(pos, this.map.getZoom());
 	}

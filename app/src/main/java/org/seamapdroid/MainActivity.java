@@ -179,7 +179,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         final DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        final NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -202,6 +202,7 @@ public class MainActivity extends AppCompatActivity {
                         break;
                 }
 
+                navigationView.clearFocus();
                 drawerLayout.closeDrawers();
                 return Boolean.TRUE;
             }

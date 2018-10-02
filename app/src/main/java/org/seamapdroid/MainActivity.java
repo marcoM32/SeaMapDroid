@@ -66,6 +66,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.Locale;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.net.ssl.HttpsURLConnection;
 
@@ -202,7 +204,6 @@ public class MainActivity extends AppCompatActivity {
                         break;
                 }
 
-                navigationView.clearFocus();
                 drawerLayout.closeDrawers();
                 return Boolean.TRUE;
             }
@@ -279,7 +280,7 @@ public class MainActivity extends AppCompatActivity {
         alert.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
                 String result = input.getText().toString();
-                if (result.matches("^[A-Za-z\\s]+$")) {
+                if (!result.isEmpty()) {
                     SearchTask searchTask = new SearchTask(result);
                     searchTask.execute();
                 } else {

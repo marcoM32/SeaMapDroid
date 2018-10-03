@@ -11,6 +11,15 @@
         <item name="windowNoTitle">true</item>
     </style>
 
+    <style name="AppTheme.ToolBar" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="android:textColorPrimary">@color/colorBlank</item>
+    </style>
+
+    <style name="AppTheme.ToolBar.PopUp" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="android:textColorPrimary">@color/colorBlack</item>
+        <item name="android:background">@color/colorBlank</item>
+    </style>
+
     <style name="SplashTheme" parent="AppTheme.NoActionBar">
         <item name="android:windowBackground">@drawable/splash</item>
     </style>

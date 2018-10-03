@@ -24,9 +24,10 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="@color/colorPrimary"
+            app:theme="@style/AppTheme.ToolBar"
+            app:popupTheme="@style/AppTheme.ToolBar.PopUp"
             android:elevation="4dp"
-            app:title="@string/app_name"
-            app:titleTextColor="#FFF" />
+            app:title="@string/app_name" />
 
         <WebView
             android:id="@+id/aWebView"

@@ -22,7 +22,7 @@ Features
 To do
 -----
 - [X] Add the settings activity
-- [ ] Add the legend of the map
+- [X] Add the legend of the map
 - [ ] Internationalization of software
 
 Translations

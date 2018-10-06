@@ -67,8 +67,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.Locale;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import javax.net.ssl.HttpsURLConnection;
 
@@ -116,7 +114,7 @@ public class MainActivity extends AppCompatActivity {
         aWebView.setWebViewClient(new WebViewClient() {
             @Override
             public void onPageFinished(WebView view, String url) {
-                if(MAP_PAGE_URL.equals(url))
+                if (MAP_PAGE_URL.equals(url))
                     loadPreferances();
             }
         });
@@ -185,7 +183,7 @@ public class MainActivity extends AppCompatActivity {
         final DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 
         ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, //
-                toolbar,R.string.about, R.string.about);
+                toolbar, R.string.about, R.string.about);
         actionBarDrawerToggle.syncState();
 
         final NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
@@ -194,7 +192,7 @@ public class MainActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.nav_search:
-                        if(isNetworkAvailable()) {
+                        if (isNetworkAvailable()) {
                             searchCities();
                         } else {
                             Toast.makeText(getApplicationContext(), R.string.no_connection, Toast.LENGTH_LONG).show();
@@ -405,12 +403,12 @@ public class MainActivity extends AppCompatActivity {
                     } catch (RuntimeException ex) {
                         ex.printStackTrace();
                     } finally {
-                        if(bufferedReader != null)
+                        if (bufferedReader != null)
                             bufferedReader.close();
                     }
 
                     JSONArray jsonArray = new JSONArray(stringBuilder.toString());
-                    if(jsonArray.length() == 1) {
+                    if (jsonArray.length() == 1) {
                         JSONObject jsonObject = jsonArray.getJSONObject(0);
                         final Double latitude = jsonObject.getDouble("lat");
                         final Double longitude = jsonObject.getDouble("lon");
@@ -431,7 +429,7 @@ public class MainActivity extends AppCompatActivity {
             } catch (IOException | JSONException e) {
                 e.printStackTrace();
             } finally {
-                if(urlConnection != null)
+                if (urlConnection != null)
                     urlConnection.disconnect();
             }
             return Void.class;

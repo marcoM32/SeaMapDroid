@@ -23,17 +23,27 @@ const ZOOM = 5;
 
 var user_markers;
 var poi_markers;
+
+var layer_route;
 var layer_mapnik;
 var layer_deeps;
 var layer_seamark;
 var layer_pois;
 var layer_grid;
 
+var route_points;
+
 const MAPNIK = 1;
 const DEEPS = 2;
 const SEAMARK = 3;
 const POIS = 4;
 const GRID = 5;
+
+const ROUTE_STYLE = { 
+	strokeColor: '#303F9F',
+	strokeOpacity: 0.5,
+	strokeWidth: 5
+};
 
 // Function for initialize the map
 function init() {
@@ -57,32 +67,39 @@ function init() {
 		}
     }
 	
+	// Route layer
+	layer_route = new OpenLayers.Layer.Vector("Line Layer"); 
+	
+	// Markers layers
     user_markers = new OpenLayers.Layer.Markers( "Markers" );
 	poi_markers = new OpenLayers.Layer.Markers( "Markers" );
-
+		
 	// Mapnik (Base map)
 	layer_mapnik = new OpenLayers.Layer.OSM("OpenStreetMap (Mapnik)");
 	// Water Depth
 	layer_deeps = new OpenLayers.Layer.WMS("deeps_gwc", "http://osm.franken.de:8080/geoserver/gwc/service/wms",{layers: "gebco_2014", format:"image/png"},{isBaseLayer: false, visibility: false});
+	layer_deeps.setOpacity(0.8);
 	// Seamark
-	layer_seamark = new OpenLayers.Layer.TMS ( "seamarks", "http://t1.openseamap.org/seamark/", { numZoomLevels: 18, type: 'png', getURL:getTileURL, isBaseLayer:false, displayOutsideMaxExtent:true , visibility: false});
+	layer_seamark = new OpenLayers.Layer.TMS( "seamarks", "http://t1.openseamap.org/seamark/", { numZoomLevels: 18, type: 'png', getURL:getTileURL, isBaseLayer:false, displayOutsideMaxExtent:true , visibility: false});
 	// POI-Layer for harbours
-	layer_pois = new OpenLayers.Layer.Vector("pois", { projection: new OpenLayers.Projection("EPSG:4326"), visibility: false, displayOutsideMaxExtent:true});
+	layer_pois = new OpenLayers.Layer.Vector("pois", { projection: new OpenLayers.Projection("EPSG:4326"), displayOutsideMaxExtent:true});
+	layer_pois.setOpacity(0.8);
 	// Grid WGS
 	layer_grid = new OpenLayers.Layer.GridWGS("coordinateGrid", {visibility: false, zoomUnits: zoomUnits});
-	layer_deeps.setOpacity(0.8);
-	layer_pois.setOpacity(0.8);
+	
 	// Add layers on the base map
-	map.addLayers([user_markers, poi_markers, layer_mapnik, layer_deeps, layer_seamark, layer_pois, layer_grid]);
-
+	map.addLayers([layer_route, user_markers, poi_markers, layer_mapnik, layer_deeps, layer_seamark, layer_pois, layer_grid]);
+	map.addControl(new OpenLayers.Control.DrawFeature(layer_route, OpenLayers.Handler.Path));
+	
 	var lonLat = new OpenLayers.LonLat(LON ,LAT)
-	.transform(
-		new OpenLayers.Projection("EPSG:4326"), // transform from WGS 1984
-		map.getProjectionObject() // to Spherical Mercator Projection
-	);
+       .transform(
+               new OpenLayers.Projection("EPSG:4326"),
+               map.getProjectionObject()
+		);
+		
+	route_points = new Array();
 
 	map.setCenter(lonLat, ZOOM);
-
 }
 
 // OpenSeaMap layer
@@ -119,28 +136,49 @@ function setLayerState(layer, boolean) {
 		layer_grid.setVisibility(boolean);
 }
 
-function setUserPosition(lat, lon, follow) {
+function setUserPosition(lat, lon, follow, trace) {
     clearUserMarker();
 
     // Add a new actual position mark
     var pos = new OpenLayers.LonLat(lon, lat) //
-        .transform(new OpenLayers.Projection("EPSG:4326"), new OpenLayers.Projection("EPSG:900913"));
+        .transform(new OpenLayers.Projection("EPSG:4326"), map.getProjectionObject());
     this.user_markers.addMarker(new OpenLayers.Marker(pos, new OpenLayers.Icon('./images/marker.png', //
 		new OpenLayers.Size(16,16), null)));
 
     if(follow) {
         this.map.setCenter(pos, this.map.getZoom());
     }
-}
+	
+	clearUserTrace();
+	
+	if(trace) {
+		if(this.route_points.length >= 10000)
+			this.route_points.slice();
+		
+		this.route_points.push(new OpenLayers.Geometry.Point(lon,lat).transform(
+               new OpenLayers.Projection("EPSG:4326"),
+               map.getProjectionObject()
+		));	
+
+		var line = new OpenLayers.Geometry.LineString(this.route_points);
+		var lineFeature = new OpenLayers.Feature.Vector(line, null, ROUTE_STYLE);
+			
+		layer_route.addFeatures([lineFeature]);	
+	}
+}	
 
 function setPoiPosition(lat, lon) {
 	clearPoiMarker();
 	
 	// Add a new POI position mark
     var pos = new OpenLayers.LonLat(lon, lat) //
-        .transform(new OpenLayers.Projection("EPSG:4326"), new OpenLayers.Projection("EPSG:900913"));
+        .transform(new OpenLayers.Projection("EPSG:4326"), map.getProjectionObject());
     this.poi_markers.addMarker(new OpenLayers.Marker(pos));
 	this.map.setCenter(pos, this.map.getZoom());
+}
+
+function clearUserTrace() {
+	this.layer_route.removeAllFeatures();
 }
 
 function clearUserMarker() {
@@ -149,4 +187,10 @@ function clearUserMarker() {
 
 function clearPoiMarker() {
 	this.poi_markers.clearMarkers();
+}
+
+function clearAllMap() {
+    clearUserTrace();
+    clearUserMarker();
+    clearPoiMarker();
 }

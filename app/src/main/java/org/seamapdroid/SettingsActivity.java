@@ -31,6 +31,7 @@ public class SettingsActivity extends AppCompatActivity {
     public static final String GRID = "pref_grid";
 
     public static final String CENTER_MAP = "pref_center_map";
+    public static final String TRACE_ROUTE = "pref_trace_route";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +45,7 @@ public class SettingsActivity extends AppCompatActivity {
         // Enable back navigation on action bar
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
-            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setDisplayHomeAsUpEnabled(Boolean.TRUE);
             actionBar.setTitle(R.string.action_preferences);
         }
     }
@@ -52,15 +53,13 @@ public class SettingsActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            // Home, finish
             case android.R.id.home:
                 finish();
                 break;
-
             default:
-                return false;
+                return Boolean.FALSE;
         }
 
-        return true;
+        return Boolean.TRUE;
     }
 }

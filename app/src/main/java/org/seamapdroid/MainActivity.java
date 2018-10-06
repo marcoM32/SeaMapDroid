@@ -131,7 +131,8 @@ public class MainActivity extends AppCompatActivity {
             public void onLocationChanged(Location location) {
                 SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
                 aWebView.loadUrl("javascript:setUserPosition(" + location.getLatitude() + "," + location.getLongitude() + //
-                        "," + preferences.getBoolean(SettingsActivity.CENTER_MAP, Boolean.FALSE) + ");");
+                        "," + preferences.getBoolean(SettingsActivity.CENTER_MAP, Boolean.FALSE) + //
+                        "," + preferences.getBoolean(SettingsActivity.TRACE_ROUTE, Boolean.FALSE) + ");");
             }
 
             @Override
@@ -166,7 +167,7 @@ public class MainActivity extends AppCompatActivity {
                             if (Build.VERSION.SDK_INT >= 23 && //
                                     ContextCompat.checkSelfPermission(getApplicationContext(), //
                                             Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-                                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 0, locationListener);
+                                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 5, locationListener);
                                 recording = Boolean.TRUE;
                                 Toast.makeText(getApplicationContext(), R.string.gps_on, Toast.LENGTH_LONG).show();
                             }
@@ -223,8 +224,7 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
 
         if (aWebView.getUrl().equals(MAP_PAGE_URL)) {
-            aWebView.loadUrl("javascript:clearUserMarker()");
-            aWebView.loadUrl("javascript:clearPoiMarker()");
+            aWebView.loadUrl("javascript:clearAllMap()");
             loadPreferances();
         }
     }
@@ -263,8 +263,10 @@ public class MainActivity extends AppCompatActivity {
      */
     private void disconnectGPS() {
         if (locationManager != null) {
-            if (aWebView.getUrl().equals(MAP_PAGE_URL))
+            if (aWebView.getUrl().equals(MAP_PAGE_URL)) {
                 aWebView.loadUrl("javascript:clearUserMarker()");
+                aWebView.loadUrl("javascript:clearUserTrace()");
+            }
             locationManager.removeUpdates(locationListener);
             recording = Boolean.FALSE;
         }

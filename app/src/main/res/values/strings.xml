@@ -23,6 +23,8 @@
     <string name="preference_gps">Gps service</string>
     <string name="preference_center_map">Keep centered map</string>
     <string name="preference_center_map_summary">Keep your map centered when your position is updated</string>
+    <string name="preference_trace_route">Trace my route</string>
+    <string name="preference_trace_route_summary">Keep track of my route</string>
     <string name="gps_ready">The location service is ready to trace your position</string>
     <string name="gps_not_available">The location service is no longer available</string>
     <string name="gps_on">Tracking enabled</string>

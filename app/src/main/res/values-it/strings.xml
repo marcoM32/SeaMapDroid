@@ -61,4 +61,6 @@
 		<p>Buon utilizzo! :)</p>
     ]]>
     </string>
+    <string name="preference_trace_route">Traccia il mio percorso</string>
+    <string name="preference_trace_route_summary">Evidenzia sulla mappa il mio percorso</string>
 </resources>

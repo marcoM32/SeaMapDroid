@@ -60,4 +60,6 @@
 		<p>Вливайтесь! :)</p>
     ]]>
     </string>
+    <string name="preference_trace_route">Проследить мой маршрут</string>
+    <string name="preference_trace_route_summary">Следите за моим маршрутом</string>
 </resources>

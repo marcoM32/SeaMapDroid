@@ -136,7 +136,7 @@ public class MainActivity extends AppCompatActivity {
                         "," + preferences.getBoolean(SettingsActivity.CENTER_MAP, Boolean.FALSE) + //
                         "," + preferences.getBoolean(SettingsActivity.TRACE_ROUTE, Boolean.FALSE) + ");");
 
-                if(location.hasBearing())
+                if(compass != null && location.hasBearing())
                     compass.setDegrees(location.getBearing());
             }
 
@@ -169,12 +169,12 @@ public class MainActivity extends AppCompatActivity {
                 if (gpsState) {
                     if (!recording) {
                         if (locationManager != null) {
-                            if (Build.VERSION.SDK_INT >= 23 && //
-                                    ContextCompat.checkSelfPermission(getApplicationContext(), //
-                                            Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                            if (checkPermission()) {
                                 locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 5, locationListener);
                                 recording = Boolean.TRUE;
                                 Toast.makeText(getApplicationContext(), R.string.gps_on, Toast.LENGTH_LONG).show();
+                            } else {
+                                requirePermission();
                             }
                         }
                     } else {
@@ -222,8 +222,6 @@ public class MainActivity extends AppCompatActivity {
                 return Boolean.TRUE;
             }
         });
-
-        checkPermission();
     }
 
     @Override
@@ -278,6 +276,16 @@ public class MainActivity extends AppCompatActivity {
             locationManager.removeUpdates(locationListener);
             recording = Boolean.FALSE;
         }
+        resetCompass();
+    }
+
+    /**
+     * This method reset the compass degrees to 0
+     */
+    private void resetCompass() {
+        if(compass != null) {
+            compass.setDegrees(0);
+        }
     }
 
     /**
@@ -330,11 +338,22 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * The method check if the app permissions is
+     * all granted
+     */
+    public Boolean checkPermission() {
+        return (Build.VERSION.SDK_INT >= 23 && //
+                ContextCompat.checkSelfPermission(getApplicationContext(), //
+                        Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED);
+    }
+
+    /**
+     * The method check if the app permissions is
      * all granted otherwise it requires them
      */
-    public void checkPermission() {
-        if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 256);
+    public void requirePermission() {
+        if (!checkPermission()) {
+            ActivityCompat.requestPermissions(MainActivity.this, //
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 256);
         }
     }
 

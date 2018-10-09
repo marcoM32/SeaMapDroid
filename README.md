@@ -15,14 +15,17 @@ Screenshots
 
 Features
 --------
-* Different languages: Italian, English
+* Different languages: Italian, English, Russian
 * Many layers displayed on the map
+* User GPS route track
 * Free-software
 
 To do
 -----
 - [X] Add the settings activity
-- [X] Add the legend of the map
+- [X] Add the legend of the map (Online version)
+- [X] Add the compass of the user direction
+- [X] Add gps route track
 - [ ] Internationalization of software
 
 Translations

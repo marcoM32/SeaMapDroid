@@ -12,12 +12,12 @@
     </style>
 
     <style name="AppTheme.ToolBar" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
-        <item name="android:textColorPrimary">@color/colorBlank</item>
+        <item name="android:textColorPrimary">@color/colorWhite</item>
     </style>
 
     <style name="AppTheme.ToolBar.PopUp" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
         <item name="android:textColorPrimary">@color/colorBlack</item>
-        <item name="android:background">@color/colorBlank</item>
+        <item name="android:background">@color/colorWhite</item>
     </style>
 
     <style name="SplashTheme" parent="AppTheme.NoActionBar">

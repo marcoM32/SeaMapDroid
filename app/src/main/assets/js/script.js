@@ -181,6 +181,11 @@ function clearUserTrace() {
 	this.layer_route.removeAllFeatures();
 }
 
+function clearUserTracePoints() {
+    if(this.route_points.length > 0)
+        this.route_points = [];
+}
+
 function clearUserMarker() {
     this.user_markers.clearMarkers();
 }
@@ -191,6 +196,7 @@ function clearPoiMarker() {
 
 function clearAllMap() {
     clearUserTrace();
+    clearUserTracePoints();
     clearUserMarker();
     clearPoiMarker();
 }

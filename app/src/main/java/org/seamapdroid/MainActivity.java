@@ -58,6 +58,8 @@ import android.webkit.WebViewClient;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.redinput.compassview.CompassView;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -83,6 +85,8 @@ public class MainActivity extends AppCompatActivity {
     private LocationManager locationManager;
 
     private FloatingActionButton floatingActionButton;
+
+    private CompassView compass;
 
     private Boolean recording;
 
@@ -131,6 +135,9 @@ public class MainActivity extends AppCompatActivity {
                 aWebView.loadUrl("javascript:setUserPosition(" + location.getLatitude() + "," + location.getLongitude() + //
                         "," + preferences.getBoolean(SettingsActivity.CENTER_MAP, Boolean.FALSE) + //
                         "," + preferences.getBoolean(SettingsActivity.TRACE_ROUTE, Boolean.FALSE) + ");");
+
+                if(location.hasBearing())
+                    compass.setDegrees(location.getBearing());
             }
 
             @Override
@@ -179,6 +186,8 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
+        compass = (CompassView) findViewById(R.id.compass);
 
         final DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 
@@ -264,6 +273,7 @@ public class MainActivity extends AppCompatActivity {
             if (aWebView.getUrl().equals(MAP_PAGE_URL)) {
                 aWebView.loadUrl("javascript:clearUserMarker()");
                 aWebView.loadUrl("javascript:clearUserTrace()");
+                aWebView.loadUrl("javascript:clearUserTracePoints()");
             }
             locationManager.removeUpdates(locationListener);
             recording = Boolean.FALSE;

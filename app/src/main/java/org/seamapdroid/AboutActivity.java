@@ -40,7 +40,7 @@ public class AboutActivity extends AppCompatActivity {
         // Back button
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(Boolean.TRUE);
-        actionBar.setSubtitle(BuildConfig.VERSION_NAME);
+        actionBar.setSubtitle("v" + BuildConfig.VERSION_NAME);
     }
 
     @Override
@@ -49,7 +49,6 @@ public class AboutActivity extends AppCompatActivity {
             case android.R.id.home:
                 finish();
                 break;
-
             default:
                 return Boolean.FALSE;
         }

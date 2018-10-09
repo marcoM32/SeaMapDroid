@@ -35,7 +35,7 @@
 
         <CheckBoxPreference
             android:key="pref_deeps"
-            android:icon="@android:drawable/ic_input_get"
+            android:icon="@android:drawable/ic_menu_set_as"
             android:title="@string/preference_show_deeps"
             android:summary="@string/preference_show_deeps_summary"
             android:persistent="true"
@@ -43,7 +43,7 @@
 
         <CheckBoxPreference
             android:key="pref_seamark"
-            android:icon="@android:drawable/ic_input_get"
+            android:icon="@android:drawable/ic_menu_set_as"
             android:title="@string/preference_show_seamark"
             android:summary="@string/preference_show_seamark_summary"
             android:persistent="true"
@@ -51,7 +51,7 @@
 
         <CheckBoxPreference
             android:key="pref_pois"
-            android:icon="@android:drawable/ic_input_get"
+            android:icon="@android:drawable/ic_menu_set_as"
             android:title="@string/preference_show_pois"
             android:summary="@string/preference_show_pois_summary"
             android:persistent="true"
@@ -59,7 +59,7 @@
 
         <CheckBoxPreference
             android:key="pref_grid"
-            android:icon="@android:drawable/ic_input_get"
+            android:icon="@android:drawable/ic_menu_set_as"
             android:title="@string/preference_show_grid"
             android:summary="@string/preference_show_grid_summary"
             android:persistent="true"
@@ -80,7 +80,7 @@
 
     <CheckBoxPreference
         android:key="pref_trace_route"
-        android:icon="@android:drawable/ic_menu_view"
+        android:icon="@android:drawable/ic_menu_mapmode"
         android:title="@string/preference_trace_route"
         android:summary="@string/preference_trace_route_summary"
         android:persistent="true"

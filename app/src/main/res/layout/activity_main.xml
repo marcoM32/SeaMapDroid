@@ -7,49 +7,64 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true">
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/activity_main"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingBottom="@dimen/activity_vertical_margin"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin"
-        android:paddingTop="@dimen/activity_vertical_margin"
-        tools:context="org.seamapdroid.MainActivity">
-
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="@color/colorPrimary"
-            app:theme="@style/AppTheme.ToolBar"
-            app:popupTheme="@style/AppTheme.ToolBar.PopUp"
-            android:elevation="4dp"
-            app:title="@string/app_name" />
-
-        <WebView
-            android:id="@+id/aWebView"
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/activity_main"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:visibility="visible" />
+            tools:context="org.seamapdroid.MainActivity">
 
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/floatingActionButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/aWebView"
-            android:layout_alignParentRight="true"
-            android:layout_margin="25dp"
-            app:backgroundTint="@color/colorPrimary"
-            app:borderWidth="5dp"
-            app:srcCompat="@android:drawable/ic_menu_mylocation"
-            tools:ignore="RelativeOverlap,RtlHardcoded" />
-    </RelativeLayout>
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="fill_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:layout_alignParentTop="true"
+                android:gravity="center_horizontal"
+                android:background="@color/colorPrimary"
+                app:theme="@style/AppTheme.ToolBar"
+                app:popupTheme="@style/AppTheme.ToolBar.PopUp"
+                app:title="@string/app_name" />
+
+            <WebView
+                android:id="@+id/aWebView"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_above="@+id/compass"
+                android:layout_below="@+id/toolbar"
+                android:foregroundGravity="center"/>
+
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/floatingActionButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="25dp"
+                android:layout_marginBottom="50dp"
+                android:foregroundGravity="bottom"
+                app:backgroundTint="@color/colorPrimary"
+                app:borderWidth="5dp"
+                app:srcCompat="@android:drawable/ic_menu_mylocation"
+                tools:ignore="RelativeOverlap,RtlHardcoded" />
+
+            <com.redinput.compassview.CompassView
+                android:id="@+id/compass"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:foregroundGravity="center_horizontal"
+                app:backgroundColor="@color/colorPrimary"
+                app:degrees="0"
+                app:lineColor="@color/colorBlank"
+                app:textColor="@color/colorBlank"
+                app:markerColor="@color/colorRed"
+                app:rangeDegrees="360.0"
+                app:showMarker="true"
+                app:textSize="12sp" />
+
+        </RelativeLayout>
 
     <android.support.design.widget.NavigationView
         android:id="@+id/nav_view"

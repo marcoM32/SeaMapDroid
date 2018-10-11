@@ -17,6 +17,8 @@
  */
 package org.seamapdroid;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
@@ -43,6 +45,9 @@ public class AboutActivity extends AppCompatActivity {
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 if ("https://www.gnu.org/licenses/gpl-3.0.html".equals(url)) {
                     displayAppLicense();
+                } else {
+                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                    startActivity(intent);
                 }
                 return Boolean.TRUE;
             }

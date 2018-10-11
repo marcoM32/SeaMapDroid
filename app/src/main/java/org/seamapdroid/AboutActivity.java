@@ -19,11 +19,14 @@ package org.seamapdroid;
 
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
-import android.text.Spanned;
 import android.text.method.LinkMovementMethod;
 import android.view.MenuItem;
+import android.view.View;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.TextView;
 
 public class AboutActivity extends AppCompatActivity {
@@ -32,15 +35,40 @@ public class AboutActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about);
-        Spanned htmlText = Html.fromHtml(getResources().getString(R.string.about_history));
-        TextView aboutTextView = (TextView) findViewById(R.id.aboutTextView);
-        aboutTextView.setText(htmlText);
-        aboutTextView.setMovementMethod(LinkMovementMethod.getInstance());
+
+        WebView aboutWebView = (WebView) findViewById(R.id.aboutWebView);
+        aboutWebView.loadData(getString(R.string.about_content), "text/html", "UTF-8");
+        aboutWebView.setWebViewClient(new WebViewClient() {
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                if ("https://www.gnu.org/licenses/gpl-3.0.html".equals(url)) {
+                    displayAppLicense();
+                }
+                return Boolean.TRUE;
+            }
+        });
 
         // Back button
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(Boolean.TRUE);
         actionBar.setSubtitle("v" + BuildConfig.VERSION_NAME);
+    }
+
+    /**
+     * Displays the app's license in an AlertDialog.
+     */
+    private void displayAppLicense() {
+        View view = getLayoutInflater().inflate(R.layout.activity_about_licence, null);
+
+        TextView textView = (TextView) view.findViewById(R.id.licenceTextView);
+        textView.setText(Html.fromHtml(getString(R.string.app_license)));
+        textView.setMovementMethod(LinkMovementMethod.getInstance());
+
+        final AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        alert.setNeutralButton(R.string.ok, null);
+        alert.setCancelable(Boolean.FALSE);
+        alert.setView(view);
+        alert.show();
     }
 
     @Override

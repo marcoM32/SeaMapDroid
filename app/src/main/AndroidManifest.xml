@@ -54,6 +54,12 @@
 
         </activity>
         <activity
+            android:name=".LegendActivity"
+            android:label="@string/legend"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme">
+        </activity>
+        <activity
             android:name=".AboutActivity"
             android:label="@string/about"
             android:parentActivityName=".MainActivity"

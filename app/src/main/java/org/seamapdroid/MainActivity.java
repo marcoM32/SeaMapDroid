@@ -207,9 +207,7 @@ public class MainActivity extends AppCompatActivity {
                         }
                         break;
                     case R.id.nav_legend:
-                        String url = "http://map.openseamap.org/legend.php?lang=" + Locale.getDefault().getLanguage();
-                        Intent aBrowserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-                        startActivity(aBrowserIntent);
+                        startActivity(new Intent(MainActivity.this, LegendActivity.class));
                         break;
                     case R.id.nav_quit:
                         disconnectGPS();

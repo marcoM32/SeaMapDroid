@@ -66,13 +66,6 @@ function init() {
 			return false;
 		}
     }
-	
-	// Route layer
-	layer_route = new OpenLayers.Layer.Vector("Line Layer"); 
-	
-	// Markers layers
-    user_markers = new OpenLayers.Layer.Markers( "Markers" );
-	poi_markers = new OpenLayers.Layer.Markers( "Markers" );
 		
 	// Mapnik (Base map)
 	layer_mapnik = new OpenLayers.Layer.OSM("OpenStreetMap (Mapnik)");
@@ -84,11 +77,19 @@ function init() {
 	// POI-Layer for harbours
 	layer_pois = new OpenLayers.Layer.Vector("pois", { projection: new OpenLayers.Projection("EPSG:4326"), displayOutsideMaxExtent:true});
 	layer_pois.setOpacity(0.8);
+	
+	// Route layer
+	layer_route = new OpenLayers.Layer.Vector("Line Layer"); 
+	
+	// Markers layers
+    user_markers = new OpenLayers.Layer.Markers( "Markers" );
+	poi_markers = new OpenLayers.Layer.Markers( "Markers" );
+	
 	// Grid WGS
 	layer_grid = new OpenLayers.Layer.GridWGS("coordinateGrid", {visibility: false, zoomUnits: zoomUnits});
 	
 	// Add layers on the base map
-	map.addLayers([layer_route, user_markers, poi_markers, layer_mapnik, layer_deeps, layer_seamark, layer_pois, layer_grid]);
+	map.addLayers([layer_mapnik, layer_deeps, layer_seamark, layer_pois, layer_route, user_markers, poi_markers, layer_grid]);
 	map.addControl(new OpenLayers.Control.DrawFeature(layer_route, OpenLayers.Handler.Path));
 	
 	var lonLat = new OpenLayers.LonLat(LON ,LAT)

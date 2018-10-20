@@ -23,7 +23,7 @@ Features
 To do
 -----
 - [X] Add the settings activity
-- [X] Add the legend of the map (Online version)
+- [X] Add the legend of the map
 - [X] Add the compass of the user direction
 - [X] Add gps route track
 - [ ] Internationalization of software

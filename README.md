@@ -2,6 +2,8 @@
 
 SeaMapDroid
 ===========
+[<img src="./Logo/seamapdroid-logotype.png">](https://github.com/naufaal/SeaMapDroid//Logo/seamapdroid-logotype.png)
+
 An open source Android  application for consult the libre online nautical maps OpenSeaMap (map.openseamap.org).
 
 [<img src="https://f-droid.org/badge/get-it-on.png"
@@ -46,3 +48,7 @@ will. Specifically you can redistribute and/or modify it under the terms of the
 [GNU General Public License](https://www.gnu.org/licenses/gpl.html) as
 published by the Free Software Foundation, either version 3 of the License, or
 (at your option) any later version.
+
+Contribution
+-------
+Logo by @naufaal

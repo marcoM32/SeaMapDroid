@@ -2,7 +2,7 @@
 
 SeaMapDroid
 ===========
-[<img src="./Logo/seamapdroid-logotype.png">](https://github.com/naufaal/SeaMapDroid//logo/seamapdroid-logotype.png)
+[<img src="./logo/seamapdroid-logotype.png" width="80%" align="center">](https://github.com/marcoM32/SeaMapDroid/logo/seamapdroid-logotype.png)
 
 An open source Android  application for consult the libre online nautical maps OpenSeaMap (map.openseamap.org).
 

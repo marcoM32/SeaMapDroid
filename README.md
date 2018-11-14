@@ -51,4 +51,4 @@ published by the Free Software Foundation, either version 3 of the License, or
 
 Contribution
 -------
-Logo by @naufaal
+Logo by @naufaldsg

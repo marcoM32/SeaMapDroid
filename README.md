@@ -1,9 +1,9 @@
+<img align="right" width="500" alt="Share to Clipboard" src="./Logo/seamapdroid-logotype.png">
+
 [![Release](https://img.shields.io/github/release/marcoM32/SeaMapDroid.svg)](https://github.com/marcoM32/SeaMapDroid/releases)
 
 SeaMapDroid
 ===========
-[<img src="./Logo/seamapdroid-logotype.png">](https://github.com/naufaal/SeaMapDroid//Logo/seamapdroid-logotype.png)
-
 An open source Android  application for consult the libre online nautical maps OpenSeaMap (map.openseamap.org).
 
 [<img src="https://f-droid.org/badge/get-it-on.png"

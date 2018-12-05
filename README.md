@@ -1,4 +1,5 @@
-<img align="right" width="500" alt="Share to Clipboard" src="./logo/seamapdroid_logotype.png">
+<img align="right" width="500" alt="SeaMapDroid" 
+src="./logo/seamapdroid_logotype.png">
 
 [![Release](https://img.shields.io/github/release/marcoM32/SeaMapDroid.svg)](https://github.com/marcoM32/SeaMapDroid/releases)
 

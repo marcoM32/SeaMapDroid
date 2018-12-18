@@ -10,8 +10,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center_horizontal"
-        android:padding="40dp"
-        android:src="@drawable/logo"
+        android:padding="30dp"
+        android:src="@drawable/logo_drawer_head"
         android:contentDescription="@string/app_name"/>
     
 </RelativeLayout>

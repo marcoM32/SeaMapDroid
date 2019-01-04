@@ -44,7 +44,9 @@ public class AboutActivity extends AppCompatActivity {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 if ("https://www.gnu.org/licenses/gpl-3.0.html".equals(url)) {
-                    displayAppLicense();
+                    displayLicense(getString(R.string.app_license));
+                } else if("https://opensource.org/licenses/MIT".equals(url)) {
+                    displayLicense(getString(R.string.logo_license));
                 } else {
                     Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
                     startActivity(intent);
@@ -60,13 +62,13 @@ public class AboutActivity extends AppCompatActivity {
     }
 
     /**
-     * Displays the app's license in an AlertDialog.
+     * Displays a license text in an AlertDialog.
      */
-    private void displayAppLicense() {
+    private void displayLicense(String text) {
         View view = getLayoutInflater().inflate(R.layout.activity_about_licence, null);
 
         TextView textView = (TextView) view.findViewById(R.id.licenceTextView);
-        textView.setText(Html.fromHtml(getString(R.string.app_license)));
+        textView.setText(Html.fromHtml(text));
         textView.setMovementMethod(LinkMovementMethod.getInstance());
 
         final AlertDialog.Builder alert = new AlertDialog.Builder(this);

@@ -15,6 +15,8 @@ Screenshots
 -----------
 [<img src="./photo1.png" width="200" height="300">](https://github.com/marcoM32/SeaMapDroid/blob/master/photo1.png)
 [<img src="./photo2.png" width="200" height="300">](https://github.com/marcoM32/SeaMapDroid/blob/master/photo2.png)
+[<img src="./photo3.png" width="200" height="300">](https://github.com/marcoM32/SeaMapDroid/blob/master/photo3.png)
+
 
 Features
 --------
@@ -29,7 +31,7 @@ For adding a new language is necessary add a new version of strings.xml file wit
 
 #### Get the source
 
-    $ git clone --recursive https://github.com/marcoM32/SeaMapDroid.git
+    $ git clone https://github.com/marcoM32/SeaMapDroid.git
     $ cd SeaMapDroid
 
 License

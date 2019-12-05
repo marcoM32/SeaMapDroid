@@ -1,13 +1,26 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="org.seamapdroid.MainActivity">
+
+    <item
+        android:id="@+id/action_search"
+        android:icon="@drawable/ic_action_search"
+        android:title="@string/search"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/action_legend"
+        android:title="@string/legend" />
 
     <item
         android:id="@+id/action_preferences"
         android:title="@string/action_preferences" />
+
     <item
         android:id="@+id/action_source"
         android:title="@string/action_source" />
+
     <item
         android:id="@+id/action_about"
         android:title="@string/action_about" />

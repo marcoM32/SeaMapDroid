@@ -24,7 +24,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
-import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
@@ -35,16 +34,11 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Process;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
-import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -68,7 +62,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
-import java.util.Locale;
 
 import javax.net.ssl.HttpsURLConnection;
 
@@ -187,38 +180,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
         compass = (CompassView) findViewById(R.id.compass);
-
-        final DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-
-        ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, //
-                toolbar, R.string.about, R.string.about);
-        actionBarDrawerToggle.syncState();
-
-        final NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.nav_search:
-                        if (isNetworkAvailable()) {
-                            searchCities();
-                        } else {
-                            Toast.makeText(getApplicationContext(), R.string.no_connection, Toast.LENGTH_LONG).show();
-                        }
-                        break;
-                    case R.id.nav_legend:
-                        startActivity(new Intent(MainActivity.this, LegendActivity.class));
-                        break;
-                    case R.id.nav_quit:
-                        disconnectGPS();
-                        Process.killProcess(Process.myPid());
-                        break;
-                }
-
-                drawerLayout.closeDrawers();
-                return Boolean.TRUE;
-            }
-        });
     }
 
     @Override
@@ -246,6 +207,16 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case R.id.action_search:
+                if (isNetworkAvailable()) {
+                    searchCities();
+                } else {
+                    Toast.makeText(getApplicationContext(), R.string.no_connection, Toast.LENGTH_LONG).show();
+                }
+                return Boolean.TRUE;
+            case R.id.action_legend:
+                startActivity(new Intent(MainActivity.this, LegendActivity.class));
+                break;
             case R.id.action_preferences:
                 startActivity(new Intent(MainActivity.this, SettingsActivity.class));
                 return Boolean.TRUE;

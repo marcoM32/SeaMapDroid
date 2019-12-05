@@ -13,8 +13,8 @@ An open source Android  application for consult the libre online nautical maps O
 
 Screenshots
 -----------
-[<img src="./photo1.jpg" width="200" height="300">](https://github.com/marcoM32/SeaMapDroid/blob/master/photo1.jpg)
-[<img src="./photo2.jpg" width="200" height="300">](https://github.com/marcoM32/SeaMapDroid/blob/master/photo2.jpg)
+[<img src="./photo1.png" width="200" height="300">](https://github.com/marcoM32/SeaMapDroid/blob/master/photo1.png)
+[<img src="./photo2.png" width="200" height="300">](https://github.com/marcoM32/SeaMapDroid/blob/master/photo2.png)
 
 Features
 --------
@@ -22,14 +22,6 @@ Features
 * Many layers displayed on the map
 * User GPS route track
 * Free-software
-
-To do
------
-- [X] Add the settings activity
-- [X] Add the legend of the map
-- [X] Add the compass of the user direction
-- [X] Add gps route track
-- [ ] Internationalization of software
 
 Translations
 ------------

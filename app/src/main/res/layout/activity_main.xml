@@ -1,19 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/drawer_layout"
+    android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true">
-
-        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            xmlns:tools="http://schemas.android.com/tools"
-            android:id="@+id/activity_main"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:context="org.seamapdroid.MainActivity">
+    tools:context="org.seamapdroid.MainActivity">
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
@@ -46,7 +38,7 @@
                 android:foregroundGravity="bottom"
                 app:backgroundTint="@color/colorPrimary"
                 app:borderWidth="5dp"
-                app:srcCompat="@android:drawable/ic_menu_mylocation"
+                app:srcCompat="@drawable/ic_action_my_location"
                 tools:ignore="RelativeOverlap,RtlHardcoded" />
 
             <com.redinput.compassview.CompassView
@@ -64,14 +56,4 @@
                 app:showMarker="true"
                 app:textSize="12sp" />
 
-        </RelativeLayout>
-
-    <android.support.design.widget.NavigationView
-        android:id="@+id/nav_view"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_gravity="start"
-        app:headerLayout="@layout/activity_main_drawer_head"
-        app:menu="@menu/drawer" />
-
-</android.support.v4.widget.DrawerLayout>
+</RelativeLayout>
